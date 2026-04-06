@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: src-labs
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: EMAIL_USER
+        scope: build,runtime
+        sync: false
+      - key: EMAIL_PASSWORD
+        scope: build,runtime
+        sync: false
+    staticSite: false
