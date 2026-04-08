@@ -6,8 +6,9 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  // Render deployment configuration
-  output: 'standalone',
+  // Static export configuration
+  output: 'export',
+  trailingSlash: true,
   swcMinify: true,
 }
 
