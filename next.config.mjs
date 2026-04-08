@@ -9,7 +9,6 @@ const nextConfig = {
   // Static export configuration
   output: 'export',
   trailingSlash: true,
-  swcMinify: true,
 }
 
 export default nextConfig
