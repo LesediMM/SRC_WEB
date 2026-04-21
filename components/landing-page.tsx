@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useEffect, useState, useRef, useCallback } from "react"
-import dynamic from "next/dynamic"
-import { Section } from "./section"
+import { useEffect, useState, useRef, useCallback } from "react";
+import dynamic from "next/dynamic";
+import { Section } from "./section";
 
 const Scene = dynamic(() => import("./3d/scene").then((mod) => mod.Scene), {
   ssr: false,
@@ -11,95 +11,96 @@ const Scene = dynamic(() => import("./3d/scene").then((mod) => mod.Scene), {
       <div className="w-8 h-8 border-2 border-black/20 border-t-black rounded-full animate-spin" />
     </div>
   ),
-})
-import { ProgressBar } from "./progress-bar"
-import { SectionIndicators } from "./section-indicators"
-import { Header } from "./header"
-import { ContactForm } from "./contact-form"
+});
+import { ProgressBar } from "./progress-bar";
+import { SectionIndicators } from "./section-indicators";
+import { Header } from "./header";
+import { ContactForm } from "./contact-form";
 
 const sections = [
   {
     id: "hero",
     title: "S.R.C. Labs",
-    subtitle: "Welcome",
-    description: "Research and Development",
+    subtitle: "Where vision meets execution",
+    description:
+      "We build software that scales, research that matters, and partnerships that last. Let’s turn your boldest ideas into reality.",
     alignment: "left" as const,
   },
   {
     id: "research",
-    title: "Research",
+    title: "Research & Intelligence",
     subtitle: "Our Expertise",
     items: [
-      "OSINT Audits",
-      "Consulting",
-      "General STEM Research and IP",
+      "🔍 OSINT Audits – Uncover hidden threats and opportunities",
+      "📊 Strategic Consulting – Data‑driven decisions for competitive advantage",
+      "🧪 STEM Research & IP – From lab to market, protect and monetize innovation",
     ],
     alignment: "right" as const,
   },
   {
     id: "development",
-    title: "Development",
+    title: "Development & DevOps",
     subtitle: "Our Services",
     items: [
-      "Web Development",
-      "DevOps",
-      "STEM to Software Development",
+      "🌐 Web Development – Modern, fast, conversion‑optimized platforms",
+      "⚙️ DevOps & Cloud – Automate, scale, and secure your infrastructure",
+      "📈 STEM to Software – Turn complex algorithms into production‑ready solutions",
     ],
     alignment: "left" as const,
   },
   {
     id: "vision",
     title: "Our Vision & Mission",
-    subtitle: "Purpose",
+    subtitle: "Purpose driven",
     description:
-      "Increase companies' access to software and technology. Demonopolize the software and solutions market - particularly in Africa, Middle East, South East Asia, and South America.",
+      "We exist to democratize access to world‑class software and technology. By breaking monopolies and lowering barriers, we empower businesses across Africa, the Middle East, Southeast Asia, and South America to compete globally.",
     alignment: "right" as const,
   },
   {
     id: "contact",
-    title: "Get In Touch",
+    title: "Ready to accelerate?",
     subtitle: "Contact Us",
     alignment: "center" as const,
     hasForm: true,
   },
-]
+];
 
 export function LandingPage() {
-  const [activeSection, setActiveSection] = useState(0)
-  const [scrollProgress, setScrollProgress] = useState(0)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const isScrollingRef = useRef(false)
+  const [activeSection, setActiveSection] = useState(0);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isScrollingRef = useRef(false);
 
   const scrollToSection = useCallback((index: number) => {
-    const section = document.getElementById(sections[index].id)
+    const section = document.getElementById(sections[index].id);
     if (section) {
-      isScrollingRef.current = true
-      section.scrollIntoView({ behavior: "smooth" })
+      isScrollingRef.current = true;
+      section.scrollIntoView({ behavior: "smooth" });
       setTimeout(() => {
-        isScrollingRef.current = false
-      }, 1000)
+        isScrollingRef.current = false;
+      }, 1000);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (!containerRef.current || isScrollingRef.current) return
+      if (!containerRef.current || isScrollingRef.current) return;
 
-      const scrollTop = window.scrollY
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight
-      const progress = (scrollTop / docHeight) * 100
-      setScrollProgress(progress)
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = (scrollTop / docHeight) * 100;
+      setScrollProgress(progress);
 
-      const sectionHeight = window.innerHeight
-      const currentSection = Math.round(scrollTop / sectionHeight)
-      setActiveSection(Math.min(currentSection, sections.length - 1))
-    }
+      const sectionHeight = window.innerHeight;
+      const currentSection = Math.round(scrollTop / sectionHeight);
+      setActiveSection(Math.min(currentSection, sections.length - 1));
+    };
 
-    window.addEventListener("scroll", handleScroll, { passive: true })
-    handleScroll()
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
 
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <div ref={containerRef} className="relative min-h-screen">
@@ -138,7 +139,20 @@ export function LandingPage() {
             isActive={activeSection === index}
             alignment={section.alignment}
           >
-            {section.hasForm && <ContactForm />}
+            {section.hasForm && (
+              <>
+                <ContactForm />
+                <div className="mt-8 text-center">
+                  <p className="text-neutral-600 text-sm">Or contact us directly:</p>
+                  <a
+                    href="mailto:Lesedi@aucegypt.edu"
+                    className="text-black font-medium underline hover:opacity-70 transition"
+                  >
+                    Lesedi@aucegypt.edu
+                  </a>
+                </div>
+              </>
+            )}
           </Section>
         ))}
       </main>
@@ -160,5 +174,5 @@ export function LandingPage() {
         </div>
       </footer>
     </div>
-  )
+  );
 }
