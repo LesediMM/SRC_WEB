@@ -192,3 +192,15 @@
 .animation-delay-4000 {
   animation-delay: 4s;
 }
+
+/* ========== DIAGONAL SCROLLING ADDITIONS ========== */
+/* Disable native scroll to allow custom scroll container */
+html, body {
+  overflow: hidden;
+  height: 100%;
+}
+
+/* Ensure each section fills the viewport (required for stacking) */
+section {
+  min-height: 100vh;
+}
