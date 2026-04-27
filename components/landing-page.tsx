@@ -152,7 +152,7 @@ export function LandingPage() {
       e.preventDefault();
       if (isScrollingRef.current) return;
       // Increased delta from 0.05 to 0.25
-      const delta = e.deltaY > 0 ? 0.5 : -0.5;
+      const delta = e.deltaY > 0 ? 0.8 : -0.8;
       let newProgress = currentProgress.current + delta;
       newProgress = Math.min(Math.max(0, newProgress), sections.length - 1);
       if (newProgress !== currentProgress.current) {
