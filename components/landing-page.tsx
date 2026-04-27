@@ -87,11 +87,11 @@ export function LandingPage() {
   const currentProgress = useRef(0);
   const animationFrame = useRef<number>();
 
-  // Smooth animation of transform
+  // Smooth animation of transform (shorter duration for snappier feel)
   const animateTransform = useCallback((targetProgress: number) => {
     if (animationFrame.current) cancelAnimationFrame(animationFrame.current);
     const startProgress = currentProgress.current;
-    const duration = 600;
+    const duration = 400; // reduced from 600ms
     const startTime = performance.now();
     const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
@@ -146,12 +146,13 @@ export function LandingPage() {
     [animateTransform]
   );
 
-  // Handle wheel / trackpad
+  // Handle wheel / trackpad (increased sensitivity)
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
       e.preventDefault();
       if (isScrollingRef.current) return;
-      const delta = e.deltaY > 0 ? 0.05 : -0.05;
+      // Increased delta from 0.05 to 0.25
+      const delta = e.deltaY > 0 ? 0.25 : -0.25;
       let newProgress = currentProgress.current + delta;
       newProgress = Math.min(Math.max(0, newProgress), sections.length - 1);
       if (newProgress !== currentProgress.current) {
@@ -159,7 +160,7 @@ export function LandingPage() {
         animateTransform(newProgress);
       }
     };
-    // Also handle touch move for mobile (simple version)
+    // Handle touch move with dynamic step based on swipe distance
     let touchStartY = 0;
     const handleTouchStart = (e: TouchEvent) => {
       touchStartY = e.touches[0].clientY;
@@ -169,8 +170,9 @@ export function LandingPage() {
       if (isScrollingRef.current) return;
       const deltaY = touchStartY - e.touches[0].clientY;
       if (Math.abs(deltaY) > 10) {
-        const delta = deltaY > 0 ? 0.05 : -0.05;
-        let newProgress = currentProgress.current + delta;
+        // Map swipe distance to progress change: 100px ≈ 0.25 progress
+        const step = deltaY / 400;
+        let newProgress = currentProgress.current + step;
         newProgress = Math.min(Math.max(0, newProgress), sections.length - 1);
         if (newProgress !== currentProgress.current) {
           isScrollingRef.current = true;
